@@ -1,2 +1,3 @@
-# usesul_functions
-Some useful functions that I might need to use again
+# Usesul Functions
+
+This repo contain collection of some functions that I think I might need again
