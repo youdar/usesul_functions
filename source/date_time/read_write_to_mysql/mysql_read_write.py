@@ -49,7 +49,7 @@ class MysqlReadWrite(object):
         self.cnx.close()
 
 
-    def push_data_to_mysql(self,col_names,data,close_when_done=True, delete_existing=True):
+    def push_data_to_mysql(self,data,col_names=None,close_when_done=True, delete_existing=True):
         """
         Move data to Tableau MySql
 
@@ -62,6 +62,12 @@ class MysqlReadWrite(object):
 
         """
         if bool(data):
+            if not bool(col_names):
+                # get column names
+                desc_str = 'DESCRIBE  %s.%s' % (self.db_name, self.tb_name)
+                self.cursor.execute(desc_str)
+                col_names = [str(x[0]) for x in self.cursor.fetchall()]
+
             # Delete all existing data
             if delete_existing:
                 del_cmd = 'delete from %s' % self.tb_name
